@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-train-model',
@@ -7,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrainModelComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    this.containerName = 'uploadfile'
+  }
+
+  containerName: string;
+
+  shiftViews(name: string) {
+    this.containerName = name
+  }
 
   ngOnInit(): void {
   }

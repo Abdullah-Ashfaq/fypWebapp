@@ -1,1 +1,45 @@
-<p>train-model works!</p>
+<!-- upload dataset -->
+
+<div *ngIf="containerName=='uploadfile'" style="position: relative; top: 5em;">
+    <p style="color: black; font-size: larger;">
+        Dataset page
+    </p>
+    <p (click)="shiftViews('viewdata')">
+        go
+    </p>
+</div>
+
+<!-- View dataset page -->
+<div *ngIf="containerName=='viewdata'" style="position: relative; top: 5em;">
+    <p style="color: black; font-size: larger;">
+        View Dataset page
+    </p>
+    <p (click)="shiftViews('features')">
+        go
+    </p>
+
+    <p (click)="shiftViews('uploadfile')">
+        back
+    </p>
+
+</div>
+
+<!-- View dataset page -->
+<div *ngIf="containerName=='features'" style="position: relative; top: 5em;">
+    <p style="color: black; font-size: larger;">
+        Features page
+    </p>
+    <p (click)="shiftViews('preprocessing')">
+        go
+    </p>
+</div>
+
+<!-- View preprocesiing page -->
+<div *ngIf="containerName=='preprocessing'" style="position: relative; top: 5em;">
+    <p style="color: black; font-size: larger;">
+        preprocessing page
+    </p>
+    <p (click)="shiftViews('viewdata')">
+        go
+    </p>
+</div>
