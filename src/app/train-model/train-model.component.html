@@ -1,45 +1,142 @@
 <!-- upload dataset -->
 
-<div *ngIf="containerName=='uploadfile'" style="position: relative; top: 5em;">
-    <p style="color: black; font-size: larger;">
-        Dataset page
-    </p>
-    <p (click)="shiftViews('viewdata')">
-        go
-    </p>
+<div *ngIf="containerName=='uploadfile'" class="bg">
+    <div class="selectdataset">
+
+        <div class="container">
+            <h1>Select Dataset</h1>
+            <div style="text-align: center; margin-top: 70px;">
+
+                <label class="custom-file-upload">
+                    <input type="file" style="text-align: center;">
+                </label>
+            </div>
+            <div class="button-container">
+                <button class="button"> Back</button>
+                <button class="button" (click)="shiftViews('viewdata')"> View Dataset</button>
+                <button class="button" (click)="shiftViews('features')"> Next</button>
+
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <!-- View dataset page -->
-<div *ngIf="containerName=='viewdata'" style="position: relative; top: 5em;">
-    <p style="color: black; font-size: larger;">
-        View Dataset page
-    </p>
-    <p (click)="shiftViews('features')">
-        go
-    </p>
+<div *ngIf="containerName=='viewdata'" class="bg">
+    <div class="abc">
+        <div class="dataset">
+            <h1 style="text-align: center;">Dataset</h1>
 
-    <p (click)="shiftViews('uploadfile')">
-        back
-    </p>
+        </div>
+        <div class="button-container">
+
+            <button class="button" (click)="shiftViews('uploadfile')" style="margin-right: 10px;"> Back</button>
+            <button class="button" (click)="shiftViews('features')"> Next</button>
+
+        </div>
+    </div>
 
 </div>
 
-<!-- View dataset page -->
-<div *ngIf="containerName=='features'" style="position: relative; top: 5em;">
-    <p style="color: black; font-size: larger;">
-        Features page
-    </p>
-    <p (click)="shiftViews('preprocessing')">
-        go
-    </p>
+<!-- Feature -->
+<div *ngIf="containerName=='features'" class="bg">
+    <div class="feature">
+        <div class="feature-container">
+            <h1>Select Features </h1>
+            <ul>
+
+                <input type="radio" id="tfidf" value="tfidf" name="features">
+                <label for="tfidf">Apply TF-IDF</label><br>
+                <input type="radio" id="word2vec" value="word2vec" name="features">
+                <label for="word2vec">Apply Word2Vec</label><br>
+                <input type="radio" id="subjectively" value="Subjectively" name="features">
+                <label for="subjectively">Apply Subjectively</label><br>
+                <input type="radio" id="punctuations" value="punctuations" name="features">
+                <label for="punctuations">Apply Punctuations</label><br>
+                <input type="radio" id="polarity" value="polarity" name="features">
+                <label for="polarity">Apply Polarity</label><br>
+                <!-- <input type="radio" id="All-features" value="All-features" name="features">
+
+                <label for="All-features">All</label><br> -->
+
+            </ul>
+            <div class="button-container">
+                <button class="button" (click)="shiftViews('uploadfile')" style="margin-right: 10px;"> Back</button>
+                <button class="button" (click)="shiftViews('preprocessing')"> Next</button>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- View preprocesiing page -->
-<div *ngIf="containerName=='preprocessing'" style="position: relative; top: 5em;">
-    <p style="color: black; font-size: larger;">
-        preprocessing page
-    </p>
-    <p (click)="shiftViews('viewdata')">
-        go
-    </p>
+<div *ngIf="containerName=='preprocessing'" class="bg">
+    <div class="feature">
+        <div class="feature-container">
+            <h1>Data Preprocessing</h1>
+            <ul>
+
+                <li><input class="checkbox1" type="checkbox">Stopwords removal</li>
+                <li><input class="checkbox1" type="checkbox">POS tagging</li>
+                <li><input class="checkbox1" type="checkbox">Extract Numeronyms</li>
+                <li><input class="checkbox1" type="checkbox">Lemmatization </li>
+                <li><input class="checkbox1" type="checkbox">Pascal casing of hash-tagged words</li>
+                <!-- <li><input type="checkbox" id="checkall1" /> Selecct All</li> -->
+
+            </ul>
+            <div class="button-container">
+                <button class="button" (click)="shiftViews('features')"> Back</button>
+                <button class="button" (click)="shiftViews('viewdata')"> View Dataset</button>
+                <button class="button" (click)="shiftViews('classifiers')"> Next</button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div *ngIf="containerName=='classifiers'" class="bg">
+    <div class="classifier">
+        <!-- machine learning model -->
+        <div class="container1">
+            <h1>Select Machine Learning Model</h1>
+            <form style="margin-left: 35px; margin-top: 30px;" action="">
+                <input type="radio" id="random-forest" name="ml-model" value="random-forest" checked>
+                <label for="random-forest">Random Forest</label><br>
+                <input type="radio" id="SVM" name="ml-model" value="SVM">
+                <label for="SVM">SVM</label><br>
+            </form>
+
+        </div>
+
+        <!-- evaluation metrics -->
+        <div class="container2">
+            <h1>Select Evaluation Metrics</h1>
+            <ul>
+                <li><input class="checkbox3" type="checkbox" id="Accuracy" checked>Accuracy</li>
+                <li><input class="checkbox3" type="checkbox" id="Precission">Precission</li>
+                <li><input class="checkbox3" type="checkbox" id="Recal">Recal</li>
+                <li><input class="checkbox3" type="checkbox" id="F-measure">F-Measure</li>
+                <!-- <li><input type="checkbox" id="checkall3" /> Selecct All</li> -->
+            </ul>
+
+
+        </div>
+
+        <!-- validation techniques -->
+        <div class="container3">
+            <h1>Select validation Technique</h1>
+            <ul>
+                <li><input class="checkbox" type="checkbox" name="check4" id="10-fold">10-Fold cross validation</li>
+                <li><input class="checkbox" type="checkbox" name="check5" id="hold-out" checked>Hold-Out validation </li>
+            </ul>
+        </div>
+        <div class="button-container" style="margin-top: 15px;">
+            <button class="button" (click)="shiftViews('preprocessing')"> Back</button>
+            <button class="button" (click)="shiftViews('')"> Train Model</button>
+            <button class="button" (click)="shiftViews('')"> View Result</button>
+
+        </div>
+
+    </div>
 </div>
