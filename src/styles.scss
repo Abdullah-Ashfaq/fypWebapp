@@ -1,7 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Raleway", sans-serif;
 }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+}
+.blue-snackbar {
+    background:white;
+    font-family: 'Roboto';
+    color: black;
+    font-weight: bold;
+  }
+ 

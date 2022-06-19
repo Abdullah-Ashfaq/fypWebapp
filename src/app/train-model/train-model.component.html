@@ -1,142 +1,619 @@
-<!-- upload dataset -->
-
-<div *ngIf="containerName=='uploadfile'" class="bg">
-    <div class="selectdataset">
-
-        <div class="container">
-            <h1>Select Dataset</h1>
-            <div style="text-align: center; margin-top: 70px;">
-
-                <label class="custom-file-upload">
-                    <input type="file" style="text-align: center;">
-                </label>
+<main>
+    <!-- Header -->
+    <header class="header">
+        <div class="container flex-between">
+            <div class="logo">
+                <a href="#">
+                    <img class="l-img" src="../../assets/logo.png" alt="" />
+                </a>
             </div>
-            <div class="button-container">
-                <button class="button"> Back</button>
-                <button class="button" (click)="shiftViews('viewdata')"> View Dataset</button>
-                <button class="button" (click)="shiftViews('features')"> Next</button>
+            <nav class="main-navgation flex-between flex-ver-top">
+                <div class="nav-links">
 
-            </div>
+                </div>
 
-        </div>
-    </div>
-</div>
+                <div class="nav-buttons">
 
-<!-- View dataset page -->
-<div *ngIf="containerName=='viewdata'" class="bg">
-    <div class="abc">
-        <div class="dataset">
-            <h1 style="text-align: center;">Dataset</h1>
+                    <a style="font-family: Raleway;" href="#" class="log-in">Home</a>
+                    <a style="font-family: Raleway;" href="#" class="log-in">Offerings</a>
+                    <a style="font-family: Raleway;" href="#" class="log-in">Dataset</a>
+                    <a style="font-family: Raleway;" href="#" class="sign-up btn btn-sm disabled">Recommendations</a>
 
-        </div>
-        <div class="button-container">
-
-            <button class="button" (click)="shiftViews('uploadfile')" style="margin-right: 10px;"> Back</button>
-            <button class="button" (click)="shiftViews('features')"> Next</button>
-
-        </div>
-    </div>
-
-</div>
-
-<!-- Feature -->
-<div *ngIf="containerName=='features'" class="bg">
-    <div class="feature">
-        <div class="feature-container">
-            <h1>Select Features </h1>
-            <ul>
-
-                <input type="radio" id="tfidf" value="tfidf" name="features">
-                <label for="tfidf">Apply TF-IDF</label><br>
-                <input type="radio" id="word2vec" value="word2vec" name="features">
-                <label for="word2vec">Apply Word2Vec</label><br>
-                <input type="radio" id="subjectively" value="Subjectively" name="features">
-                <label for="subjectively">Apply Subjectively</label><br>
-                <input type="radio" id="punctuations" value="punctuations" name="features">
-                <label for="punctuations">Apply Punctuations</label><br>
-                <input type="radio" id="polarity" value="polarity" name="features">
-                <label for="polarity">Apply Polarity</label><br>
-                <!-- <input type="radio" id="All-features" value="All-features" name="features">
-
-                <label for="All-features">All</label><br> -->
-
-            </ul>
-            <div class="button-container">
-                <button class="button" (click)="shiftViews('uploadfile')" style="margin-right: 10px;"> Back</button>
-                <button class="button" (click)="shiftViews('preprocessing')"> Next</button>
-
+                </div>
+            </nav>
+            <div class="burger-menu">
+                <i class="fa-regular fa-bars icon"></i>
             </div>
         </div>
-    </div>
-</div>
+    </header>
 
-<!-- View preprocesiing page -->
-<div *ngIf="containerName=='preprocessing'" class="bg">
-    <div class="feature">
-        <div class="feature-container">
-            <h1>Data Preprocessing</h1>
-            <ul>
+    <section class="page">
 
-                <li><input class="checkbox1" type="checkbox">Stopwords removal</li>
-                <li><input class="checkbox1" type="checkbox">POS tagging</li>
-                <li><input class="checkbox1" type="checkbox">Extract Numeronyms</li>
-                <li><input class="checkbox1" type="checkbox">Lemmatization </li>
-                <li><input class="checkbox1" type="checkbox">Pascal casing of hash-tagged words</li>
-                <!-- <li><input type="checkbox" id="checkall1" /> Selecct All</li> -->
+        <div class="side-menu">
 
-            </ul>
-            <div class="button-container">
-                <button class="button" (click)="shiftViews('features')"> Back</button>
-                <button class="button" (click)="shiftViews('viewdata')"> View Dataset</button>
-                <button class="button" (click)="shiftViews('classifiers')"> Next</button>
+            <div class="content-menu">
+                <span class="heading-main">
+                    <h1>
+                        Hotel Recommendation System
+                    </h1>
+                </span>
+
+                <mat-divider></mat-divider>
+
+
+                <span class="options">
+
+                    <ul>
+                        <li *ngIf="currentDiv=='dataset'" class="liact">
+                            <a>
+                                Dataset
+                            </a>
+                        </li>
+
+                        <li (click)="switchViews('dataset')" *ngIf="currentDiv!='dataset'">
+                            <a>
+                                Dataset
+                            </a>
+                        </li>
+
+
+                        <li *ngIf="currentDiv=='features'  && selectedCSVFileName" class="liact">
+                            <a>
+                                Features
+                            </a>
+                        </li>
+
+
+                        <li class="disabled" *ngIf="currentDiv!='features' && !selectedCSVFileName">
+                            <a>
+                                Features
+                            </a>
+                        </li>
+
+
+
+                        <li (click)="switchViews('features')" *ngIf="currentDiv!='features' && selectedCSVFileName">
+                            <a>
+                                Features
+                            </a>
+                        </li>
+
+                        <li (click)="switchViews('preprocessing')"
+                            *ngIf="currentDiv!='preprocessing' && featureSelected">
+                            <a>
+                                Preprocessing
+                            </a>
+                        </li>
+
+                        <li *ngIf="currentDiv=='preprocessing' && featureSelected" class="liact">
+                            <a>
+                                Preprocessing
+                            </a>
+                        </li>
+
+                        <li *ngIf="!featureSelected" class="disabled">
+                            <a>
+                                Preprocessing
+                            </a>
+                        </li>
+
+                        <!-- modelSelected -->
+                        <li *ngIf="currentDiv=='mlmodel' && preprocessing" class="liact">
+                            <a>
+                                ML Model
+                            </a>
+                        </li>
+
+
+                        <li (click)="switchViews('mlmodel')" *ngIf="currentDiv!='mlmodel' && preprocessing">
+                            <a>
+                                ML Model
+                            </a>
+                        </li>
+
+                        <li class="disabled" *ngIf="!preprocessing">
+                            <a>
+                                ML Model
+                            </a>
+                        </li>
+
+                        <!-- modelSelected -->
+                        <li (click)="switchViews('results')" *ngIf="currentDiv!='results' && modelSelected">
+                            <a>
+                                Results
+                            </a>
+                        </li>
+
+                        <li *ngIf="currentDiv=='results' && modelSelected" class="liact">
+                            <a>
+                                Results
+                            </a>
+                        </li>
+
+                        <li *ngIf="currentDiv!='results' && !modelSelected" class="disabled">
+                            <a>
+                                Results
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </span>
+            </div>
+
+        </div>
+
+        <div class="content">
+
+            <!-- spinner -->
+
+            <div style="position: relative;top: 20em;" *ngIf="spin" class="cont">
+                <mat-spinner></mat-spinner>
+            </div>
+
+            <!-- dataset upload and view done@!! -->
+            <div style="margin-top: 2.5em;" *ngIf="currentDiv=='dataset' && !spin" class="cont">
+
+
+                <div class="card">
+
+                    <h3>
+                        Upload Dataset to Continue
+                    </h3>
+
+
+                    <p style="font-family: Arial;text-align: center;position: relative;top: -1em;font-size: 10px;">
+                        Dataset must be related to Product/Service reviews
+                    </p>
+
+                    <div>
+                        <div style="padding-bottom: 10px;">
+                            <input *ngIf="!selectedCSVFileName" #fileImportInput (change)="fileChangeListener($event)"
+                                accept=".csv" type="file" />
+
+                            <button *ngIf="selectedCSVFileName"
+                                style="width: 20em;border-radius: 12px;background-color: #2acfcf;" mat-flat-button>
+
+                                <p
+                                    style="font-family: 'IBM Plex Sans Devanagari', sans-serif;position: relative;top:6px;color: white;">
+                                    {{selectedCSVFileName}}
+                                </p>
+
+                            </button>
+
+                        </div>
+
+                        <mat-divider *ngIf="selectedCSVFileName"></mat-divider>
+
+                        <div style="padding-top: 10px;">
+
+                            <button (click)="viewDataset()" *ngIf="selectedCSVFileName"
+                                style="width: 20em;border-radius: 12px;border:1px solid #2acfcf;background-color: white;"
+                                mat-flat-button>
+
+                                <p
+                                    style="font-family: 'IBM Plex Sans Devanagari', sans-serif;position: relative;top:6px;color: #2acfcf;">
+                                    View Dataset
+                                </p>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- select features -->
+            <div *ngIf="currentDiv=='features' && !spin" class="cont2">
+
+
+
+                <div class="cardFeatures">
+
+                    <h3>
+                        Select Features to Continue
+                    </h3>
+
+                    <div class="aligns">
+
+                        <mat-checkbox [checked]="subjCheck" (change)="subjScore($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                Subjectivity Score
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox [checked]="puncCheck" (change)="puncFeature($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                Punctuation Features
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox [checked]="tfidfCheck" (change)="tfidfFeature($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                TF-IDF model features
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox [checked]="polarCheck" (change)="polarityFeature($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                Polarity Features
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox [checked]="word2vecCheck" (change)="word2vecFeature($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                word2vec model Features
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox [checked]="doc2vecCheck" (change)="doc2vecFeature($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                doc2vec model Features
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox [checked]="bertCheck" (change)="bertFeature($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                Bert Model Features
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox [checked]="allCheck" (change)="allFeature($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                ALL Features
+                            </p>
+                        </mat-checkbox>
+
+
+
+                    </div>
+
+                    <span class="btns">
+                        <button (click)="validateFeatures()" mat-flat-button class="btnBlue" matStepperNext>
+                            <p class="railway btnLabel">
+                                Proceed
+                            </p>
+                        </button>
+                        <span class="pt-2"></span>
+                    </span>
+
+
+                </div>
 
             </div>
+
+            <!-- select preprocessing steps -->
+            <div *ngIf="currentDiv=='preprocessing' && !spin" class="cont">
+
+
+
+                <div class="cardFeatures">
+
+                    <h3>
+                        Select Preprocessing Techniques to Continue
+                    </h3>
+
+                    <div class="aligns">
+
+                        <mat-checkbox
+                            *ngIf="tfidfCheck || bertCheck || polarCheck || doc2vecCheck || word2vecCheck || subjCheck"
+                            [checked]="stopWordsCheck" (change)="stopWords($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                Stop words removal
+                            </p>
+                        </mat-checkbox>
+
+
+                        <mat-checkbox
+                            *ngIf="tfidfCheck || bertCheck || polarCheck || doc2vecCheck || word2vecCheck || subjCheck "
+                            [checked]="lemmitizationCheck" (change)="lemitization($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                lemmitization
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox
+                            *ngIf="tfidfCheck || bertCheck || polarCheck || doc2vecCheck || word2vecCheck || subjCheck"
+                            [checked]="hashesCheck" (change)="hashes($event)" color="primary" class="example-margin">
+                            <p class="fNames">
+                                pascal casing of hashtags
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox
+                            *ngIf="tfidfCheck || bertCheck || polarCheck || doc2vecCheck || word2vecCheck || subjCheck"
+                            [checked]="numeronymsCheck" (change)="numeronyms($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                Convert Numeronyms to words
+                            </p>
+                        </mat-checkbox>
+
+                        <mat-checkbox
+                            *ngIf="tfidfCheck || bertCheck || polarCheck || doc2vecCheck || word2vecCheck || subjCheck || puncFeature"
+                            [checked]="htmlEntitiesCheck" (change)="htmlEntities($event)" color="primary"
+                            class="example-margin">
+                            <p class="fNames">
+                                Ressolve Html Entities
+                            </p>
+                        </mat-checkbox>
+
+
+                        <mat-checkbox *ngIf="!puncFeature" [checked]="puncsCheck" (change)="puncs($event)"
+                            color="primary" class="example-margin">
+                            <p class="fNames">
+                                Remove Punctuations
+                            </p>
+                        </mat-checkbox>
+
+
+                        <mat-checkbox
+                            *ngIf="!puncFeature || tfidfCheck || bertCheck || polarCheck || doc2vecCheck || word2vecCheck || subjCheck || puncFeature"
+                            [checked]="allStepsCheck" (change)="all($event)" color="primary" class="example-margin">
+                            <p class="fNames">
+                                Apply All
+                            </p>
+                        </mat-checkbox>
+
+
+
+                    </div>
+
+                    <span class="btns">
+                        <button (click)="validatePreprocessing()" mat-flat-button class="btnBlue" matStepperNext>
+                            <p class="railway btnLabel">
+                                Proceed
+                            </p>
+                        </button>
+                        <span class="pt-2"></span>
+                    </span>
+
+
+                </div>
+
+            </div>
+
+            <!-- Machine learnig model -->
+            <div *ngIf="currentDiv=='mlmodel' && !spin" class="cont">
+
+                <div style="display: flex;">
+
+                    <div class="d-flex justify-content-center flex-column">
+                        <div class="instep d-flex justify-content-center flex-column text-center">
+                            <div class="cardFeatures">
+                                <h1 class="text-center railway" style="text-align: left;"> ML Model</h1>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Machine Learning Model</mat-label>
+                                    <mat-select (selectionChange)="chooseModel($event.value)">
+                                        <mat-option value="randomForest">
+
+                                            <p style="font-family: Source Sans Pro;color: black;">
+                                                Random Forest
+                                            </p>
+
+
+                                        </mat-option>
+
+                                        <mat-option value="svm">
+
+                                            <p style="font-family: Source Sans Pro;color: black;">
+                                                Support Vector Machine
+                                            </p>
+
+
+                                        </mat-option>
+
+                                    </mat-select>
+                                </mat-form-field>
+
+
+                                <span style="display: flex;">
+
+                                    <p class="railway"
+                                        style="padding-top: 6px;color: black;width: 50%;text-align: left;">
+                                        Evaluation metrics
+                                    </p>
+                                    <p class="railway"
+                                        style="padding-top: 6px;color: black;width: 50%;text-align: left;">
+                                        Validation technique
+                                    </p>
+                                </span>
+                                <div class="sep">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Evaluation Metric</mat-label>
+                                        <mat-select (selectionChange)="chooseEvalMat($event.value)">
+                                            <mat-option value="accuracy">
+
+                                                <p style="font-family: Source Sans Pro;color: black;">
+                                                    Accuracy
+                                                </p>
+
+
+                                            </mat-option>
+
+                                            <mat-option value="precision">
+
+                                                <p style="font-family: Source Sans Pro;color: black;">
+                                                    Precision
+                                                </p>
+
+
+                                            </mat-option>
+
+                                            <mat-option value="recall">
+
+                                                <p style="font-family: Source Sans Pro;color: black;">
+                                                    Recall
+                                                </p>
+
+
+                                            </mat-option>
+
+
+                                            <mat-option value="f1">
+
+                                                <p style="font-family: Source Sans Pro;color: black;">
+                                                    F-measures
+                                                </p>
+
+
+                                            </mat-option>
+
+                                            <mat-option value="all">
+
+                                                <p style="font-family: Source Sans Pro;color: black;">
+                                                    ALL
+                                                </p>
+
+
+                                            </mat-option>
+
+
+
+                                        </mat-select>
+
+
+                                    </mat-form-field>
+
+
+                                    <mat-form-field style="margin-left: 0.3em;" appearance="fill">
+                                        <mat-label>Validation Technique</mat-label>
+                                        <mat-select (selectionChange)="chooseTech($event.value)"
+                                            style="font-family: Source Sans Pro;color: black;">
+                                            <mat-option value="crossval">
+                                                <p style="font-family: Source Sans Pro;color: black;">
+                                                    10 fold cross
+                                                </p>
+                                            </mat-option>
+
+                                            <mat-option value="holdout">
+                                                <p style="font-family: Source Sans Pro;color: black;">
+                                                    Hold Out
+                                                </p>
+                                            </mat-option>
+
+                                        </mat-select>
+                                    </mat-form-field>
+
+
+                                </div>
+
+                                <span class="btns">
+                                    <button (click)="valModel()" mat-flat-button class="btnBlue" matStepperNext>
+                                        <p class="railway btnLabel">
+
+                                            Apply
+                                        </p>
+                                    </button>
+                                    <span class="pt-2"></span>
+                                </span>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Results -->
+            <div *ngIf="currentDiv=='results' && !spin" class="cont">
+
+                <div style="display: flex;">
+
+                    <div class="d-flex justify-content-center flex-column">
+                        <div class="instep d-flex justify-content-center flex-column text-center">
+                            <div class="cardFeatures">
+                                <h1 class="text-center railway" style="text-align: center;">Results</h1>
+
+
+                                <p class="railway" style="padding-top: 6px;color: black;text-align: center;">
+                                    Results are as follow:
+                                    <br>
+                                </p>
+
+
+                                <p class="railway" style="color: black;">
+                                    Dataset name: Trip Advisor
+                                    <br>
+                                </p>
+
+
+                                <p class="railway" style="color: black;">
+                                    Feature name: {{selectedFeatures[0]}}
+                                    <br>
+                                </p>
+
+
+                                <p *ngIf="evalMat=='all' || evalMat=='accuracy'" style="color: black;">
+
+                                    Accuracy score is {{res.accuracy | percent:'2.0-2'}}
+
+
+                                </p>
+
+
+                                <p *ngIf="evalMat=='all' || evalMat=='precision'" style="color: black;">
+
+                                    Precision score is {{res.precision | percent:'2.0-2'}}
+
+
+                                </p>
+
+
+                                <p *ngIf="evalMat=='all' || evalMat=='recall'" style="color: black;">
+
+                                    recall score is {{res.recall | percent:'2.0-2'}}
+
+
+                                </p>
+
+
+                                <p *ngIf="evalMat=='all'|| evalMat=='f1'" style="color: black;">
+
+                                    F1 score is {{res.f1 | percent:'2.0-2'}}
+
+
+                                </p>
+
+
+
+                                <span class="btns">
+                                    <button (click)="saveCloud()" mat-flat-button class="btnBlue" matStepperNext>
+                                        <p class="railway btnLabel"> Save Model
+                                        </p>
+                                    </button>
+                                    <span class="pt-2"></span>
+                                </span>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
         </div>
-    </div>
 
-</div>
-<div *ngIf="containerName=='classifiers'" class="bg">
-    <div class="classifier">
-        <!-- machine learning model -->
-        <div class="container1">
-            <h1>Select Machine Learning Model</h1>
-            <form style="margin-left: 35px; margin-top: 30px;" action="">
-                <input type="radio" id="random-forest" name="ml-model" value="random-forest" checked>
-                <label for="random-forest">Random Forest</label><br>
-                <input type="radio" id="SVM" name="ml-model" value="SVM">
-                <label for="SVM">SVM</label><br>
-            </form>
+    </section>
 
-        </div>
-
-        <!-- evaluation metrics -->
-        <div class="container2">
-            <h1>Select Evaluation Metrics</h1>
-            <ul>
-                <li><input class="checkbox3" type="checkbox" id="Accuracy" checked>Accuracy</li>
-                <li><input class="checkbox3" type="checkbox" id="Precission">Precission</li>
-                <li><input class="checkbox3" type="checkbox" id="Recal">Recal</li>
-                <li><input class="checkbox3" type="checkbox" id="F-measure">F-Measure</li>
-                <!-- <li><input type="checkbox" id="checkall3" /> Selecct All</li> -->
-            </ul>
-
-
-        </div>
-
-        <!-- validation techniques -->
-        <div class="container3">
-            <h1>Select validation Technique</h1>
-            <ul>
-                <li><input class="checkbox" type="checkbox" name="check4" id="10-fold">10-Fold cross validation</li>
-                <li><input class="checkbox" type="checkbox" name="check5" id="hold-out" checked>Hold-Out validation </li>
-            </ul>
-        </div>
-        <div class="button-container" style="margin-top: 15px;">
-            <button class="button" (click)="shiftViews('preprocessing')"> Back</button>
-            <button class="button" (click)="shiftViews('')"> Train Model</button>
-            <button class="button" (click)="shiftViews('')"> View Result</button>
-
-        </div>
-
-    </div>
-</div>
+</main>

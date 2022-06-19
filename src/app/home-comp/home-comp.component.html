@@ -1,22 +1,59 @@
-<div class="container">
-    <div class="text">
-        <h1 class="upfont">HOTEL</h1>
-        <h1 class="bgfont">Recommendation System</h1>
-        <p class="para"> using sentiment analaysis</p>
-        <div class="boxes">
-
-            <div class="box">
-                <p>Click the button below to train the machine learning models on the selected Dataset</p>
-                <button (click)="navigate('Train-Model')" class="button"> Train Model</button>
-
+<main class="main">
+    <!-- Header -->
+    <header class="header">
+        <div class="container flex-between">
+            <div class="logo">
+                <a href="#">
+                    <img class="l-img" src="../../assets/logo.png" alt="" />
+                </a>
             </div>
-            <div class="box">
-                <p>Click the Button below to test the models which are being trained and saved</p>
-                <a href="#" class="button">Test Model</a>
+            <nav class="main-navgation flex-between flex-ver-top">
+                <div class="nav-links">
 
+                </div>
+
+                <div class="nav-buttons">
+
+                    <a href="#" class="log-in">Home</a>
+                    <a href="#" class="log-in">Offerings</a>
+                    <a href="#" class="log-in">Dataset</a>
+                    <a href="#" class="sign-up btn btn-sm disabled">Recommendations</a>
+
+                </div>
+            </nav>
+            <div class="burger-menu">
+                <i class="fa-regular fa-bars icon"></i>
             </div>
         </div>
+    </header>
+    <!-- Landing -->
+    <section class="landing">
+        <div class="landing-text">
+            <h1>Hotel Recommendation System</h1>
+            <p style="font-family: 'Lato';color: rgba(0, 0, 0, 0.495);">
+               A Hotel Recommendation Sytem using Sentiment Analysis and
+               aspect based features
+            </p>
+            <a (click)="navigate('Train-Model')" class="btn btn-lg">Train Model</a>
+            <span style="padding-left: 10px;">
+                <a (click)="testModel()" style="background-color: white;border: 1px solid #2acfcf;color: #2acfcf"
+                    class="btn btn-lg">Test Model</a>
+
+            </span>
+
+        </div>
+        <div class="landing-image">
+            <img src="../../assets/illustration-working.svg"
+                alt="Working Illustration" />
+        </div>
+    </section>
+    
+    <div>
+        <!-- Footer -->
+        <footer class="footer" id="resources">
+            <div class="attribution">
+                FINAL YEAR PROJECT <a href="" class="outer-link" target="_blank">Hotel Recommendation System</a>
+            </div>
+        </footer>
     </div>
-
-
-</div>
+</main>

@@ -1,0 +1,382 @@
+<div class="icon">
+    <i (click)="close()" class="fas fa-times-circle"></i>
+</div>
+
+<div class="iconright">
+    <!-- <i class="fas fa-shopping-bag"></i> -->
+    <mat-icon *ngIf="currentDiv=='show-models'" class="icon-display">work_history</mat-icon>
+
+    <mat-icon (click)="switchView('show-models')" *ngIf="currentDiv!='show-models'" style="position: relative;top: 4px;"
+        class="icon-display">arrow_back</mat-icon>
+
+    <p *ngIf="currentDiv=='show-models'">| Pre-Trained Models</p>
+
+
+    <div *ngIf="currentDiv=='test-model'">
+        <p>| Test Model</p>
+        <br>
+        <p style="position: relative;top: -2.5em;left: 14px;font-family: arial;font-size: 12px;color: rgba(0, 0, 0, 0.451);"
+            *ngIf="currentDiv=='test-model'">Model {{modelT.modelName |uppercase}} was trained on {{modelT.datasetName
+            |uppercase}} the accuracy score was <span class="acc">
+                {{modelT.accuracy | percent:'2.0-2'}}
+            </span></p>
+
+    </div>
+</div>
+
+<div *ngIf="currentDiv=='show-models'">
+
+    <div class="og-contianer">
+
+        <div class="og-row og-li og-li-head">
+            <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-1 text-center">#</div>
+            <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-2">Model Name</div>
+            <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-3 text-center">Features</div>
+            <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-4 text-center">Preprocessing
+            </div>
+            <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-5 text-center">Timestamp</div>
+            <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-6 text-center">Validation
+                Technique
+            </div>
+            <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-8 text-center">Evalutations
+            </div>
+
+            <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-7 text-center">Test</div>
+
+        </div>
+        <div *ngFor="let item of models let i=index"
+            class="data-row og-row og-li Experienced Engineering 7.3 ready_to_hire Andhra Pradesh Yes">
+            <div style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-1 text-center">{{i+1}}</div>
+
+            <div *ngIf="item.modelName=='randomForest'" style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-2">
+                Random Forest</div>
+
+
+            <div *ngIf="item.modelName=='svm'" style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-2">
+                S.V.M</div>
+
+
+            <div style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-3 text-center">{{item.features| slice:0:-7}} {{item.features|
+                slice:-7:item.features.length}}s</div>
+            <div style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-4 text-center">{{item.preprocessingSteps.slice(10)}}</div>
+            <div style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-5 text-center">
+                {{item.timestamp | date: 'dd-MM-yyyy'}} at
+                <br>
+                {{item.timestamp * 1000| date:'HH:mm a'}}
+
+            </div>
+
+            <div *ngIf="item.trainingMethod=='holdout'" style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-6 text-center">Hold Out</div>
+
+            <div *ngIf="item.trainingMethod=='crossval'" style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-6 text-center">
+                10 Fold
+                <br>
+                cross Validation
+            </div>
+
+
+
+            <div *ngIf="item.trainingMethod!='crossval'" style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-7 text-center">
+                <p *ngIf="item.choosedEvalMatrix=='precision' || item.choosedEvalMatrix=='all'"
+                    style="color: black;font-family: 'Roboto';">
+
+                    Precision: {{item.precision | percent:'2.0-2'}}
+
+
+                </p>
+
+                <p *ngIf="item.choosedEvalMatrix=='accuracy' || item.choosedEvalMatrix=='all'"
+                    style="color: black;font-family: 'Roboto';">
+
+                    Accuracy: {{item.accuracy | percent:'2.0-2'}}
+
+
+                </p>
+
+                <p *ngIf="item.choosedEvalMatrix=='recall' || item.choosedEvalMatrix=='all'"
+                    style="color: black;font-family: 'Roboto';">
+
+                    Recall: {{item.recall | percent:'2.0-2'}}
+
+
+                </p>
+
+                <p *ngIf="item.choosedEvalMatrix=='f1' || item.choosedEvalMatrix=='all'"
+                    style="color: black;font-family: 'Roboto';">
+
+                    F1 score: {{item.f1Measure | percent:'2.0-2'}}
+
+
+                </p>
+
+
+
+            </div>
+
+
+            <div *ngIf="item.trainingMethod=='crossval'" style="font-weight: 200;font-size: 15px;"
+                class="og-li-col og-li-col-7 text-center">
+
+
+                <p *ngIf="item.choosedEvalMatrix=='accuracy' || item.choosedEvalMatrix=='all'"
+                    style="color: black;font-family: 'Roboto';">
+
+                    accuracy: {{item.accuracy | percent:'2.0-2'}}
+
+
+                </p>
+
+
+            </div>
+
+            <div *ngIf="item.trainingMethod!='crossval'" class="og-li-col og-li-col-8 text-center">
+                <a (click)="testModel(item)" style="list-style: none;" class="svbtn btn-sm">Test</a>
+
+            </div>
+
+
+            <div *ngIf="item.trainingMethod=='crossval'" class="og-li-col og-li-col-8 text-center">
+                <a style="list-style: none;" class="svbtn btn-sm disabled">Test</a>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="currentDiv=='test-model'">
+
+    <mat-tab-group dynamicHeight mat-stretch-tabs mat-align-tabs="center">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <p style="font-family: 'Roboto';">
+                    Single Review
+                </p>
+            </ng-template>
+
+            <!-- single review test -->
+            <div *ngIf="minDiv=='querry' && !spin" style="height: 22em;" class="cont">
+
+
+                <div class="card">
+
+                    <h3>
+                        Enter Review To Predict Sentiment
+                    </h3>
+
+                    <mat-form-field style="width: 20em;" appearance="fill">
+                        <mat-label style="font-family: arial;font-size: 13px;">Enter Review</mat-label>
+                        <input [(ngModel)]="review" style="font-family: arial;" matInput type="text" />
+                    </mat-form-field>
+
+                    <div>
+                        <div style="padding-bottom: 10px;">
+
+                            <button (click)="validateProceed()"
+                                style="width: 20em;border-radius: 12px;background-color: #2acfcf;" mat-flat-button>
+
+                                <p
+                                    style="font-family: 'IBM Plex Sans Devanagari', sans-serif;position: relative;top:6px;color: white;">
+                                    Predict
+                                </p>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <!-- show predicted labels along with reviews -->
+            <div *ngIf="minDiv=='show-prediction' && !spin && operation=='single'">
+
+
+                <div class="og-contianer">
+
+                    <div class="og-row og-li og-li-head">
+                        <div style="font-family: 'Arial';font-size: 14px;width: 80%;text-align: left;"
+                            class="og-li-col og-li-col-2">Review</div>
+
+                        <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-2">Predicted Label
+                        </div>
+                    </div>
+
+                    <div class="data-row og-row og-li Experienced Engineering 7.3 ready_to_hire Andhra Pradesh Yes">
+
+
+                        <div style="font-family: Roboto;font-weight: 200;font-size: 15px;width: 80%;text-align: left;"
+                            class="og-li-col og-li-col-3 text-center">{{review| slice:0:100}}...</div>
+
+                        <div *ngIf="label=='1'" style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                            class="og-li-col og-li-col-4 text-center">Positive</div>
+
+                            
+                        <div *ngIf="label=='-1'" style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                        class="og-li-col og-li-col-4 text-center">Negative</div>
+
+                        
+                        <div *ngIf="label=='0'" style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                            class="og-li-col og-li-col-4 text-center">Neutral</div>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <!-- 1 transaction going on -->
+            <div *ngIf="operation=='multiple'" style="height: 22em;" class="cont">
+
+
+                <div class="card">
+
+                    <h3>
+                        Multiple Reviews Prediction Operation is active <span
+                            style="cursor:pointer;color: black;font-family: Arial;text-decoration: underline;"
+                            *ngIf="!spin" (click)="switchMinView('querry')">Test Single Review</span>
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- spinner -->
+
+            <div style="position: relative;top: 5em;height: 22em;" *ngIf="spin" class="cont">
+                <mat-spinner></mat-spinner>
+            </div>
+
+
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <p style="font-family: 'Roboto';">
+                    Multiple Reviews
+                </p>
+            </ng-template>
+
+            <!-- dataset upload and view done@!! -->
+            <div *ngIf="minDiv=='querry' && !spin" style="height: 18em;" class="cont">
+
+
+                <div class="card">
+
+                    <h3>
+                        Upload File with reviews
+                    </h3>
+
+
+                    <p style="font-family: Arial;text-align: center;position: relative;top: -1em;font-size: 10px;">
+                        File must be csv and reviews must be present in there
+                    </p>
+
+                    <div>
+                        <div style="padding-bottom: 10px;">
+                            <input *ngIf="!selectedCSVFileName" #fileImportInput (change)="fileChangeListener($event)"
+                                accept=".csv" type="file" />
+
+                            <button (click)="validateProceed()" *ngIf="selectedCSVFileName"
+                                style="width: 20em;border-radius: 12px;background-color: #2acfcf;" mat-flat-button>
+
+                                <p
+                                    style="font-family: 'IBM Plex Sans Devanagari', sans-serif;position: relative;top:6px;color: white;">
+                                    Predict
+                                </p>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <!-- show predicted labels along with reviews -->
+            <div *ngIf="minDiv=='show-prediction' && !spin && operation=='multiple'">
+
+
+                <div class="og-contianer">
+
+                    <div class="og-row og-li og-li-head">
+                        <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-1 text-center">#
+                        </div>
+                        <div style="font-family: 'Arial';font-size: 14px;width: 80%;text-align: center;"
+                            class="og-li-col og-li-col-2">Review</div>
+
+                        <div style="font-family: 'Arial';font-size: 14px;" class="og-li-col og-li-col-2">Predicted Label
+                        </div>
+                    </div>
+
+                    <div *ngFor="let r of dispRes let i=index"
+                        class="data-row og-row og-li Experienced Engineering 7.3 ready_to_hire Andhra Pradesh Yes">
+                        <div style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                            class="og-li-col og-li-col-1 text-center">{{i+1}}</div>
+
+
+
+                        <div style="font-family: Roboto;font-weight: 200;font-size: 15px;width: 80%;"
+                            class="og-li-col og-li-col-3 text-center">{{r| slice:0:100}}...</div>
+
+                        <div style="font-family: Roboto;font-weight: 200;font-size: 15px;"
+                            class="og-li-col og-li-col-4 text-center">{{r| slice:-8:r.length}}</div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- 1 transaction going on -->
+            <div *ngIf="operation=='single'" style="height: 22em;" class="cont">
+
+
+                <div class="card">
+
+                    <h3>
+                        Single Review Prediction Operation is active <span
+                            style="cursor:pointer;color: black;font-family: Arial;text-decoration: underline;"
+                            *ngIf="!spin" (click)="switchMinView('querry')">Test Multiple Reviews</span>
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <!-- spinner -->
+
+            <div style="position: relative;top: 5em;height: 22em;" *ngIf="spin" class="cont">
+                <mat-spinner></mat-spinner>
+            </div>
+
+
+        </mat-tab>
+
+
+    </mat-tab-group>
+
+</div>

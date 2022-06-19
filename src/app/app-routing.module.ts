@@ -7,8 +7,12 @@ import { TrainModelComponent } from './train-model/train-model.component';
 const routes: Routes = [
   {
     path: '',
-    component: HomeCompComponent,
+    redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeCompComponent
   },
   {
     path: 'Train-Model',

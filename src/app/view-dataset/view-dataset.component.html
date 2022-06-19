@@ -1,0 +1,36 @@
+<div class="icon">
+    <i (click)="close()" class="fas fa-times-circle"></i>
+</div>
+
+<div class="iconright">
+    <i class="fas fa-shopping-bag"></i>
+    <p>| Dataset Display</p>
+</div>
+
+<!-- table -->
+
+<table>
+    <caption style="font-family: Arial, Helvetica, sans-serif">Trip Advisor Dataset</caption>
+    <thead>
+        <tr>
+            <th style="font-family: Arial, Helvetica, sans-serif" scope="col">Review ID</th>
+            <th style="font-family: Arial, Helvetica, sans-serif" scope="col">Review Text</th>
+            <th style="font-family: Arial, Helvetica, sans-serif" scope="col">Class Label</th>
+        </tr>
+    </thead>
+
+    <tbody *ngIf="data.open">
+        <tr *ngFor="let item of data.open">
+            <td style="font-family: Roboto;">{{item[0]}}</td>
+            <td style="
+            width: 60%;
+            text-overflow: ellipsis;font-family: Roboto;">{{item[1] | slice:0:80}}...</td>
+            <td style="font-family: Roboto;" *ngIf="item[2]=='1'">Positive</td>
+            <td style="font-family: Roboto;" *ngIf="item[2]=='-1'">Negative</td>
+            <td style="font-family: Roboto;" *ngIf="item[2]=='0'">Neutral</td>
+        </tr>
+
+
+    </tbody>
+
+</table>
